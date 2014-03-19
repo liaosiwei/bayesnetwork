@@ -1,0 +1,4 @@
+bayesnetwork
+============
+
+for excersize
