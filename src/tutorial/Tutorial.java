@@ -15,6 +15,23 @@ import java.util.Map;
  * Time: 上午9:06
  */
 public class Tutorial {
+
+    public static void displayRes(BayesNode ... nodes) {
+        for (BayesNode node: nodes) {
+            for (double x: node.getProbabilities())
+                System.out.print(x + " ");
+            System.out.println();
+        }
+    }
+
+    public static void displayBeliefs(IBayesInferer inf, BayesNode ... nodes) {
+        for (BayesNode node: nodes) {
+            for (double x: inf.getBeliefs(node))
+                System.out.print(x + " ");
+            System.out.println();
+        }
+    }
+
     public static void main(String [] args) {
         BayesNet net = new BayesNet();
         BayesNode a = net.createNode("a");
@@ -51,9 +68,33 @@ public class Tutorial {
         evidence.put(b, "three");
         inferer.setEvidence(evidence);
 
+        System.out.println("before");
+        displayRes(a, b, c);
+        displayBeliefs(inferer, a, b, c);
+
         double[] beliefsC = inferer.getBeliefs(c);
         for (double x: beliefsC) {
             System.out.println(x);
         }
+        System.out.println("after");
+        displayRes(a, b, c);
+        displayBeliefs(inferer, a, b, c);
+
+/*        evidence = new HashMap<BayesNode,String>();
+        evidence.put(a, "true");
+        evidence.put(b, "one");
+        inferer.setEvidence(evidence);*/
+        inferer.addEvidence(a, "true");
+
+        System.out.println("before");
+        displayRes(a, b, c);
+        displayBeliefs(inferer, a, b, c);
+        beliefsC = inferer.getBeliefs(c);
+        for (double x: beliefsC) {
+            System.out.println(x);
+        }
+        System.out.println("after");
+        displayRes(a, b, c);
+        displayBeliefs(inferer, a, b, c);
     }
 }
